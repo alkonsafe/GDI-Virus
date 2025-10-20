@@ -50,5 +50,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
         mouse_event(MOUSEEVENTF_LEFTDOWN, rand() % sw - 1, rand() % sh - 1, 0, 0);
         mouse_event(MOUSEEVENTF_LEFTUP, rand() % sw - 1, rand() % sh - 1, 0, 0);
+
+        HDC hdc = GetDC(0);
+        int x = SM_CXSCREEN;
+        int y = SM_CYSCREEN;
+        int w = GetSystemMetrics(0);
+        int h = GetSystemMetrics(1);
+        BitBlt(hdc, rand() % 222, rand() % 222, w, h, hdc, rand() % 222, rand() % 222, NOTSRCERASE);
+        ReleaseDC(0, hdc);
 	}
 }
