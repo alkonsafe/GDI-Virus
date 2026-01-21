@@ -48,5 +48,5 @@ jobs:
       with:
         name: GDI-Virus-Executable
         # Use a wildcard to find the exe in your build output folder
-        path: "GDI+ test/x64 (Github Actions)/${{env.BUILD_CONFIGURATION}}/**/*.exe"
+        path: "GDI+ test/x64/${{env.BUILD_CONFIGURATION}}/**/*.exe"
 
