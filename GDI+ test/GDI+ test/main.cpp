@@ -1,7 +1,9 @@
 #include <Windows.h>
 #include <string>
+#include <iostream>
 #include <fstream>
 #include "getpath.hpp"
+using namespace std;
 
 static ULONGLONG n, r;
 int randy() { return n = r, n ^= 0x8ebf635bee3c6d25, n ^= n << 5 | n >> 26, n *= 0xf3e05ca5c43e376b, r = n, n & 0x7fffffff; }
@@ -101,6 +103,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
