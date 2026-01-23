@@ -9,7 +9,8 @@
 #pragma comment(lib,"Shell32")
 #pragma comment(lib,"Ole32")
 
-inline std::filesystem::path get_desktop_path()
+std::filesystem::path
+get_desktop_path()
 {
 	wchar_t* p;
 	if (S_OK != SHGetKnownFolderPath(FOLDERID_Desktop, 0, NULL, &p)) return "";
