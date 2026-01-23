@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int sw = GetSystemMetrics(0);
     int sh = GetSystemMetrics(0);
 	auto path = get_desktop_path();
-	int counter;
+	int counter = 0;
 
     int msgboxID = MessageBox(
         NULL,
@@ -104,6 +104,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
