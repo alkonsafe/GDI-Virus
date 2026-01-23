@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <string>
 #include <fstream>
 #include "getpath.hpp"
 
@@ -100,4 +101,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
