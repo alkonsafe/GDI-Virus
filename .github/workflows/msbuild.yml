@@ -1,10 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: MSBuild
-
 on:
   push:
     branches: [ "main" ]
@@ -12,12 +6,7 @@ on:
     branches: [ "main" ]
 
 env:
-  # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: "GDI+ test/GDI+ test.sln"
-
-  # Configuration type to build.
-  # You can convert this to a build matrix if you need coverage of multiple configuration types.
-  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
 permissions:
@@ -26,27 +15,33 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        # target architectures
+        platform: [x86, x64]
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v2
 
     - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore "${{env.SOLUTION_FILE_PATH}}"
 
     - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:LanguageStandard=stdcpp17 "${{env.SOLUTION_FILE_PATH}}"
+      # use /p:Platform to target the matrix value
+      run: |
+        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} `
+                /p:Platform=${{matrix.platform}} `
+                /p:LanguageStandard=stdcpp17 `
+                "${{env.SOLUTION_FILE_PATH}}"
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: GDI-Virus-Executable
-        # Use a wildcard to find the exe in your build output folder
-        path: "GDI+ test/x64/${{env.BUILD_CONFIGURATION}}/**/*.exe"
-
+        # separate artifact name for each platform so no mixing
+        name: GDI-Virus-${{matrix.platform}}
+        path: |
+          GDI+ test/${{matrix.platform}}/${{env.BUILD_CONFIGURATION}}/*.exe
+          GDI+ test/${{matrix.platform}}/${{env.BUILD_CONFIGURATION}}/*.dll
