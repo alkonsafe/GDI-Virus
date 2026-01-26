@@ -4,14 +4,11 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 env:
   SOLUTION_FILE_PATH: "GDI+ test/GDI+ test.sln"
   BUILD_CONFIGURATION: Release
-
 permissions:
   contents: read
-
 jobs:
   build:
     runs-on: windows-latest
@@ -19,26 +16,22 @@ jobs:
       matrix:
         # target architectures
         platform: [x86, x64]
-
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
-
+    
     - name: Restore NuGet packages
       run: nuget restore "${{env.SOLUTION_FILE_PATH}}"
-
-    - name: Build
-      # use /p:Platform to target the matrix value
+    
+    - name: Build with Static Runtime
       run: |
-        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{matrix.platform}} /p:LanguageStandard=stdcpp17 "${{env.SOLUTION_FILE_PATH}}"
-        
+        msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{matrix.platform}} /p:RuntimeLibrary=MultiThreaded /p:LanguageStandard=stdcpp17 "${{env.SOLUTION_FILE_PATH}}"
+    
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        # separate artifact name for each platform so no mixing
         name: GDI-Virus-${{matrix.platform}}
         path: |
           GDI+ test/${{matrix.platform}}/${{env.BUILD_CONFIGURATION}}/*.exe
-          GDI+ test/${{matrix.platform}}/${{env.BUILD_CONFIGURATION}}/*.dll
