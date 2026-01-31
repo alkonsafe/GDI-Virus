@@ -92,7 +92,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
             mouse_event(MOUSEEVENTF_LEFTDOWN, rand() % sw - 1, rand() % sh - 1, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, rand() % sw - 1, rand() % sh - 1, 0, 0);
-			keybd_event('A', 0, 0, 0);
+
+            // ur
+			keybd_event('u', 0, 0, 0);
+            keybd_event('r', 0, KEYEVENTF_KEYUP, 0);
+
+            // mom
+            keybd_event('m', 0, 0, 0);
+            keybd_event('m', 0, KEYEVENTF_KEYUP, 0);
+            keybd_event('o', 0, 0, 0);
+            keybd_event('o', 0, KEYEVENTF_KEYUP, 0);
+            keybd_event('m', 0, 0, 0);
+            keybd_event('m', 0, KEYEVENTF_KEYUP, 0);
+
+            // enter
+            keybd_event(VK_RETURN, 0, 0, 0);
+            keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
 
             // MY EYES AHH THEY BURN
             HDC hdc = GetDC(0);
